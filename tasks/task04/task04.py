@@ -16,8 +16,8 @@ def collect_leaves(tree):
     for x in tree:
       result.append(x)
   if isinstance(tree, dict):
-    for k, v in tree.items():
-      array = (collect_leaves(v))
+    for value in tree.values():
+      array = (collect_leaves(value))
       for item in array:
         result.append(item)
   return result
