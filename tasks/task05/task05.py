@@ -1,9 +1,9 @@
-def create_user(name:str, user_name:str,  age:int = 42, **extra):
+def create_user(name:str, user_name:str,  age:int = 42, **kwargs):
   return {
     "name": name,
     "surname": user_name,
     "age": age,
-    "extra": extra
+    "extra": kwargs
   }
 
 print(create_user("John", "Doe")) 
