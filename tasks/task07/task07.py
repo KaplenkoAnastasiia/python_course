@@ -13,23 +13,21 @@ class Order():
         self.order_id = uuid.uuid4()
         self.order_date = date.today()
         self.client_id = uuid.uuid4()
-        self.Goods = {}
+        self.Goods = []
+        self.price = 0
     
     @property
     def price(self):
-      price = 0
-      if self.Goods is None or len(self.Goods.items()) < 1:
-        return price
-      for k,v  in self.Goods.items():
-        if not type(k) is Good:
-          return price
-        price += v
-      return price
+      return sum(g.price for g in self.goods)
+
+    @price.setter
+    def price(self, value): 
+      self._price = value
     
     def AddGood(self,good : Good):
       if not type(good) is Good:
         return
-      self.Goods[good] = good.price
+      self.Goods.append(good)
 
 class OrderRepository():
     def __init__(self):
@@ -45,14 +43,11 @@ class OrderRepository():
         return None
     
     def delete(self, order_id: uuid.UUID):
-       for order in self.items:
-          if order.order_id == order_id:
-            self.items.remove(order)
+      order = self.get(order_id)
+      self.items.remove(order)
 
     def list(self, n_latest : int = None):
-      if n_latest == None:
-        return self.items
-      if n_latest >= len(self.items):
+      if n_latest == None or n_latest >= len(self.items):
         return self.items
       return self.items[:n_latest]
         
